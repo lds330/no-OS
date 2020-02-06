@@ -63,6 +63,7 @@
 #include "iio_app.h"
 #include "iio_axi_adc.h"
 #include "iio_axi_dac.h"
+#include "iio_demo.h"
 #include "iio_ad9361.h"
 #include "irq.h"
 #include "irq_extra.h"
@@ -690,6 +691,11 @@ int main(void)
 	struct iio_axi_dac_init_param iio_axi_dac_init_par;
 
 	/**
+	 * iio demo configurations.
+	 */
+	struct iio_demo_init_param iio_demo_init_par;
+
+	/**
 	 * iio ad9361 configurations.
 	 */
 	struct iio_ad9361_init_param iio_ad9361_init_param;
@@ -713,6 +719,11 @@ int main(void)
 	 * iio instance descriptor.
 	 */
 	struct iio_axi_dac_desc *iio_axi_dac_desc;
+
+	/**
+	 * iio instance descriptor.
+	 */
+	struct iio_demo_desc *iio_demo_desc;
 
 	/**
 	 * iio ad9361 instance descriptor.
@@ -810,6 +821,14 @@ int main(void)
 	};
 
 	status = iio_axi_dac_init(&iio_axi_dac_desc, &iio_axi_dac_init_par);
+	if (status < 0)
+		return status;
+
+	iio_demo_init_par = (struct iio_demo_init_param) {
+		.ddr_base_addr = DAC_DDR_BASEADDR,
+	};
+
+	status = iio_demo_init(&iio_demo_desc, &iio_demo_init_par);
 	if (status < 0)
 		return status;
 
